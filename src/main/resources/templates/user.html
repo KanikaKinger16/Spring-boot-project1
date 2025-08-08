@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<HTML xmlns:th="www.thymeleaf.orgThymeleaf">
+	<HEAD>
+		<meta charset="UTF-8">
+		<TITLE>CRUD OPERATIONS ON USERS</TITLE>
+		<STYLE>
+		body
+		{
+			background-color:#e8f0fe;
+			color:#004d66;
+		}
+		h2
+		{
+			text-align:center;
+		}
+		table
+		{
+			margin-left:auto;
+			margin-right:auto;
+		}
+		td,th
+		{
+			text-align:center;	
+		}
+		form
+		{
+			margin:auto;
+			width:1200px;
+			text-align:center;
+		}
+		</STYLE>
+	</HEAD>
+	<BODY>
+		<H2>USERS</H2>
+		<TABLE border="1">
+			<TR>
+				<TH>ID</TH>
+				<TH>NAME</TH>
+				<TH>LOCATION</TH>
+				<TH>ACTION</TH>
+			</TR>
+			<TR th:each="u:${users}">
+				<TD th:text="${u.userId}">ID</TD>
+				<TD th:text="${u.userName}">NAME</TD>
+				<TD th:text="${u.userLoc}">NAME</TD>
+				<TD> <button class="delete-button" th:onclick="'deletefunc('+${u.userId}+')'">Delete User</button> </TD>
+			</TR>
+		</TABLE>
+		<h2>INSERT USER</h2>
+		<FORM th:action="@{/project1/insert}" method="POST">
+			<input type="number" name="userId" placeholder="User Id"/>
+			<input type="text" name="userName" placeholder="User Name"/>
+			<input type="text" name="userLoc" placeholder="User Location"/>
+			<button type="submit">Add User</button>
+		</FORM>
+		<SCRIPT>
+			function deletefunc(userId)
+			{
+				fetch('/project1/delete/'+userId,{method:'DELETE'})
+				.then(() => window.location.reload())
+				.catch(oops => alert("Could Not delete user!"));
+			}
+		</SCRIPT>
+	</BODY>
+</HTML>
